@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getSearchedImages = query => {
+export const getSearchedImages = (query, page) => {
   axios.defaults.baseURL = 'https://pixabay.com';
   const USER_KEY = '32431010-caf7a3962f7fe8b7dd9329d8c';
 
@@ -8,7 +8,7 @@ export const getSearchedImages = query => {
     .get('/api/?', {
       params: {
         q: query,
-        page: 1,
+        page,
         key: USER_KEY,
         image_type: 'photo',
         orientation: 'horizontal',

@@ -9,24 +9,47 @@ import css from '../ImageGallery/ImageGallery.module.css';
 export class ImageGallery extends Component {
   state = {
     images: [],
+    page: 1,
+    query: '',
     error: null,
     isLoading: false,
   };
 
+  static getDerivedStateFromProps(newProps, state) {
+    if (newProps.query !== state.query) {
+      return { page: 1, query: newProps.query };
+    }
+    return null;
+  }
+
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.query !== this.props.query) {
-      this.setState(prev => ({ isLoading: true }));
+      this.setState({ isLoading: true });
       try {
-        const data = await getSearchedImages(this.props.query);
-        console.log(data);
+        const data = await getSearchedImages(this.props.query, this.state.page);
         this.setState({ images: data.hits });
       } catch (error) {
         this.setState({ error: error.message });
       } finally {
-        this.setState(prev => ({ isLoading: false }));
+        this.setState({ isLoading: false });
+      }
+    }
+    if (prevState.page !== this.state.page) {
+      this.setState({ isLoading: true });
+      try {
+        const data = await getSearchedImages(this.props.query, this.state.page);
+        this.setState(prev => ({ images: [...prev.images, ...data.hits] }));
+      } catch (error) {
+        this.setState({ error: error.message });
+      } finally {
+        this.setState({ isLoading: false });
       }
     }
   }
+
+  updatePage = () => {
+    this.setState(prev => ({ page: prev.page + 1 }));
+  };
 
   render() {
     const { images, isLoading } = this.state;
@@ -39,7 +62,7 @@ export class ImageGallery extends Component {
         </ul>
         {isLoading && <Loader />}
 
-        {images.length > 0 && <Button />}
+        {images.length > 0 && <Button onClick={this.updatePage} />}
       </>
     );
   }
