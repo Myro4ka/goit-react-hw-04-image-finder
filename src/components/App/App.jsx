@@ -4,11 +4,18 @@ import { ImageGallery } from '../ImageGallery/ImageGallery';
 import '../App/App.module.css';
 
 export class App extends Component {
+  state = {
+    query: '',
+  };
+
+  changeQuery = inputQuery => {
+    this.setState({ query: inputQuery });
+  };
   render() {
     return (
       <>
-        <Searchbar />
-        <ImageGallery />
+        <Searchbar onSubmit={this.changeQuery} />
+        <ImageGallery query={this.state.query} />
       </>
     );
   }
