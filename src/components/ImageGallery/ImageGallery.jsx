@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from '../Button/Button';
-import { getSearchedImages } from 'services/imagesApi';
+import { getSearchedImagesApi } from 'services/imagesApi';
 import css from '../ImageGallery/ImageGallery.module.css';
 
 export class ImageGallery extends Component {
@@ -24,28 +24,30 @@ export class ImageGallery extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.query !== this.props.query) {
-      this.setState({ isLoading: true });
-      try {
-        const data = await getSearchedImages(this.props.query, this.state.page);
-        this.setState({ images: data.hits });
-      } catch (error) {
-        this.setState({ error: error.message });
-      } finally {
-        this.setState({ isLoading: false });
-      }
+      this.getSearchedImages();
     }
-    if (prevState.page !== this.state.page) {
-      this.setState({ isLoading: true });
-      try {
-        const data = await getSearchedImages(this.props.query, this.state.page);
-        this.setState(prev => ({ images: [...prev.images, ...data.hits] }));
-      } catch (error) {
-        this.setState({ error: error.message });
-      } finally {
-        this.setState({ isLoading: false });
-      }
+    if (prevState.page !== this.state.page && this.state.page !== 1) {
+      this.getSearchedImages();
     }
   }
+
+  getSearchedImages = async () => {
+    this.setState({ isLoading: true });
+    try {
+      const data = await getSearchedImagesApi(
+        this.props.query,
+        this.state.page
+      );
+      this.setState(prev => ({
+        images:
+          this.state.page === 1 ? data.hits : [...prev.images, ...data.hits],
+      }));
+    } catch (error) {
+      this.setState({ error: error.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
 
   updatePage = () => {
     this.setState(prev => ({ page: prev.page + 1 }));
