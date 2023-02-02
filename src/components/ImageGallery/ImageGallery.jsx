@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
@@ -28,17 +29,22 @@ export class ImageGallery extends Component {
   }
 
   render() {
+    const { images, isLoading } = this.state;
     return (
       <>
         <ul className={css.gallery}>
-          {this.state.images.map(({ id, webformatURL, tags }) => (
+          {images.map(({ id, webformatURL, tags }) => (
             <ImageGalleryItem key={id} image={webformatURL} desc={tags} />
           ))}
         </ul>
-        {this.state.isLoading && <Loader />}
+        {isLoading && <Loader />}
 
-        <Button />
+        {images.length > 0 && <Button />}
       </>
     );
   }
 }
+
+ImageGallery.propTypes = {
+  query: PropTypes.string.isRequired,
+};
