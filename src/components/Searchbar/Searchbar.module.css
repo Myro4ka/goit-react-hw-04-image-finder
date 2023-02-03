@@ -29,13 +29,9 @@
 
 .form__button {
   display: inline-block;
-  width: 48px;
+  width: 8%;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
   opacity: 0.6;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -48,8 +44,8 @@
 
 .form__input {
   display: inline-block;
-  width: 100%;
-  padding: auto 7px;
+  width: 92%;
+  padding: 7px;
 
   font: inherit;
   font-size: 20px;
@@ -60,4 +56,10 @@
 .form__input::placeholder {
   font: inherit;
   font-size: 18px;
+}
+
+.icon_search {
+  width: 35px;
+  height: 35px;
+  padding: 2px;
 }

@@ -13,8 +13,9 @@
 }
 
 .modal__image img {
-  width: calc(100vw - 600px);
-  height: calc(100vh - 100px);
+  width: 70%;
+  height: 80%;
+  margin: auto;
 }
 
 .modal__image:hover {

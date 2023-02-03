@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { Icons } from 'components/Icons/Icons';
+// import '../../images/symbol-defs.svg';
 import css from '../Searchbar/Searchbar.module.css';
 
 export class Searchbar extends Component {
@@ -21,7 +23,7 @@ export class Searchbar extends Component {
       <header className={css.searchbar}>
         <form className={css.form} onSubmit={this.handleSubmit}>
           <button type="submit" className={css.form__button}>
-            Search
+            <Icons name="search" />
           </button>
 
           <input
