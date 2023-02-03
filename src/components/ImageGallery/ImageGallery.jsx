@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from '../Button/Button';
+import { Modal } from 'components/Modal/Modal';
 import { getSearchedImagesApi } from 'services/imagesApi';
 import css from '../ImageGallery/ImageGallery.module.css';
 
@@ -13,6 +14,8 @@ export class ImageGallery extends Component {
     query: '',
     error: null,
     isLoading: false,
+    isOpen: false,
+    modalImg: '',
   };
 
   static getDerivedStateFromProps(newProps, state) {
@@ -54,16 +57,34 @@ export class ImageGallery extends Component {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
 
+  openModal = imageURL => {
+    window.addEventListener('keydown', this.onPressEscape);
+    this.setState(prev => ({ isOpen: !prev.isOpen, modalImg: imageURL }));
+  };
+
+  closeModal = () => {
+    this.setState(prev => ({ isOpen: !prev.isOpen }));
+  };
+
   render() {
     const { images, isLoading } = this.state;
     return (
       <>
         <ul className={css.gallery}>
-          {images.map(({ id, webformatURL, tags }) => (
-            <ImageGalleryItem key={id} image={webformatURL} desc={tags} />
+          {images.map(({ id, webformatURL, tags, largeImageURL }) => (
+            <ImageGalleryItem
+              key={id}
+              image={webformatURL}
+              desc={tags}
+              modalImg={largeImageURL}
+              onClick={this.openModal}
+            />
           ))}
         </ul>
         {isLoading && <Loader />}
+        {this.state.isOpen && (
+          <Modal image={this.state.modalImg} onCloseModal={this.closeModal} />
+        )}
 
         {images.length > 0 && <Button onClick={this.updatePage} />}
       </>
