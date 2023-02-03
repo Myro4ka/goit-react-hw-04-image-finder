@@ -49,12 +49,12 @@
 .form__input {
   display: inline-block;
   width: 100%;
+  padding: auto 7px;
+
   font: inherit;
   font-size: 20px;
   border: none;
   outline: none;
-  padding-left: 4px;
-  padding-right: 4px;
 }
 
 .form__input::placeholder {

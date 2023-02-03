@@ -29,6 +29,7 @@ export class ImageGallery extends Component {
     if (prevState.page !== this.state.page && this.state.page !== 1) {
       this.getSearchedImages();
     }
+    //   if (prevState.images !== this.state.images)
   }
 
   getSearchedImages = async () => {
