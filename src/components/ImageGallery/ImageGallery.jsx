@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+// import { createRef } from 'react';
+import { Component, createRef } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from '../Button/Button';
@@ -18,6 +19,8 @@ export class ImageGallery extends Component {
     modalImg: '',
   };
 
+  imagesItemRef = createRef();
+
   static getDerivedStateFromProps(newProps, state) {
     if (newProps.query !== state.query) {
       return { page: 1, query: newProps.query };
@@ -32,7 +35,12 @@ export class ImageGallery extends Component {
     if (prevState.page !== this.state.page && this.state.page !== 1) {
       this.getSearchedImages();
     }
-    //   if (prevState.images !== this.state.images)
+    if (this.state.images !== prevState.images) {
+      this.imagesItemRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      });
+    }
   }
 
   getSearchedImages = async () => {
@@ -71,15 +79,20 @@ export class ImageGallery extends Component {
     return (
       <>
         <ul className={css.gallery}>
-          {images.map(({ id, webformatURL, tags, largeImageURL }) => (
-            <ImageGalleryItem
-              key={id}
-              image={webformatURL}
-              desc={tags}
-              modalImg={largeImageURL}
-              onClick={this.openModal}
-            />
-          ))}
+          {images.map(
+            ({ id, webformatURL, tags, largeImageURL }, index, array) => (
+              <ImageGalleryItem
+                key={id}
+                image={webformatURL}
+                desc={tags}
+                modalImg={largeImageURL}
+                onClick={this.openModal}
+                imagesItemRef={
+                  array.length - 12 === index ? this.imagesItemRef : null
+                }
+              />
+            )
+          )}
         </ul>
         {isLoading && <Loader />}
         {this.state.isOpen && (

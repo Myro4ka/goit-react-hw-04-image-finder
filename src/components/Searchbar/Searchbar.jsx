@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Icons } from 'components/Icons/Icons';
-// import '../../images/symbol-defs.svg';
 import css from '../Searchbar/Searchbar.module.css';
 
 export class Searchbar extends Component {

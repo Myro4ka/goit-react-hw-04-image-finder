@@ -6,7 +6,6 @@ import '../App/App.module.css';
 export class App extends Component {
   state = {
     query: '',
-    // isOpen: false,
   };
 
   changeQuery = inputQuery => {
@@ -18,7 +17,6 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.changeQuery} />
         <ImageGallery query={this.state.query} />
-        {/* <Modal image /> */}
       </>
     );
   }
