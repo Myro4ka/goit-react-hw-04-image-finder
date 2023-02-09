@@ -17,22 +17,3 @@ export const App = () => {
     </>
   );
 };
-
-// export class App extends Component {
-//   state = {
-//     query: '',
-//   };
-
-//   changeQuery = inputQuery => {
-//     this.setState({ query: inputQuery });
-//   };
-
-//   render() {
-//     return (
-//       <>
-//         <Searchbar onSubmit={this.changeQuery} />
-//         <ImageGallery query={this.state.query} />
-//       </>
-//     );
-//   }
-// }
