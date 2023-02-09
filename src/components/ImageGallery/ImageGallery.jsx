@@ -10,7 +10,6 @@ import css from '../ImageGallery/ImageGallery.module.css';
 export const ImageGallery = ({ query }) => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modalImg, setModalImg] = useState('');
@@ -38,7 +37,7 @@ export const ImageGallery = ({ query }) => {
           page === 1 ? data.hits : [...prevImages, ...data.hits]
         );
       } catch (error) {
-        setError(error.message);
+        alert(error.message);
       } finally {
         setIsLoading(false);
       }
